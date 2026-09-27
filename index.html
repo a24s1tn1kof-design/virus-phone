@@ -20,18 +20,67 @@
     overflow: hidden;
   }
 
-  /* ---- Первый экран: предупреждение ---- */
-  #warning-screen {
-    max-width: 600px;
+  /* ===== CSS-иконка: треугольник с восклицательным знаком ===== */
+  .warn-icon {
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    position: relative;
+    vertical-align: middle;
+    margin: 0 8px;
   }
+  .warn-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: red;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  }
+  .warn-icon::after {
+    content: '!';
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-weight: bold;
+    font-size: 22px;
+    font-family: Arial, sans-serif;
+  }
+
+  /* ===== Иконка "крестик" для финала ===== */
+  .cross-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  .cross-icon::before,
+  .cross-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #ff2b2b;
+    border-radius: 2px;
+  }
+  .cross-icon::before { transform: rotate(45deg); }
+  .cross-icon::after  { transform: rotate(-45deg); }
+
+  /* ---- Экран 1: предупреждение ---- */
+  #warning-screen { max-width: 640px; }
 
   .alert-title {
     color: red;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     animation: blink 1s infinite;
     margin-bottom: 30px;
-    line-height: 1.4;
+    line-height: 1.6;
   }
 
   .alert-text {
@@ -54,21 +103,15 @@
     box-shadow: 0 0 25px rgba(255,0,0,0.8);
     animation: pulse 1.5s infinite;
   }
+  #start-btn:active { transform: scale(0.96); }
 
-  #start-btn:active {
-    transform: scale(0.96);
-  }
-
-  @keyframes blink {
-    50% { opacity: 0.15; }
-  }
-
+  @keyframes blink { 50% { opacity: 0.15; } }
   @keyframes pulse {
     0%,100% { box-shadow: 0 0 25px rgba(255,0,0,0.8); }
     50%     { box-shadow: 0 0 45px rgba(255,0,0,1); }
   }
 
-  /* ---- Второй экран: «терминал» ---- */
+  /* ---- Экран 2: терминал ---- */
   #terminal-screen {
     display: none;
     width: 100%;
@@ -88,34 +131,22 @@
   .green  { color: #0f0; }
   .red    { color: #ff2b2b; }
 
-  /* ---- Третий экран: выход ---- */
-  #exit-screen {
+  /* ---- Экран 3: финал ---- */
+  #final-screen {
     display: none;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 25px;
   }
 
-  #exit-screen p {
-    font-size: 20px;
-    line-height: 1.6;
-  }
-
-  #exit-btn {
-    background: #0f0;
-    color: #000;
-    font-family: inherit;
-    font-size: 20px;
+  #final-screen .final-text {
+    color: #0f0;
+    font-size: 26px;
     font-weight: bold;
-    padding: 18px 45px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(0,255,0,0.7);
-  }
-
-  #exit-btn:active {
-    transform: scale(0.96);
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 </style>
 </head>
@@ -123,7 +154,13 @@
 
   <!-- ЭКРАН 1 -->
   <div id="warning-screen">
-    <div class="alert-title">⚠️ ВНИМАНИЕ ⚠️<br>ВАШ ТЕЛЕФОН ЗАРАЖЁН!</div>
+    <div class="alert-title">
+      <span class="warn-icon"></span>
+      ВНИМАНИЕ
+      <span class="warn-icon"></span>
+      <br>
+      ВАШ ТЕЛЕФОН ЗАРАЖЁН!
+    </div>
     <div class="alert-text">
       Все ваши данные находятся под угрозой.<br>
       Нажмите на кнопку ниже, чтобы убрать вирус.
@@ -135,67 +172,72 @@
   <div id="terminal-screen"></div>
 
   <!-- ЭКРАН 3 -->
-  <div id="exit-screen">
-    <p class="green">✔ Операция завершена успешно</p>
-    <p class="green">Ваше устройство в безопасности</p>
-    <button id="exit-btn">ВЫЙТИ ИЗ САЙТА</button>
+  <div id="final-screen">
+    <div class="final-text">
+      <span class="cross-icon"></span>
+      Вирус удален! Закройте вкладку!
+    </div>
   </div>
 
 <script>
   const warningScreen  = document.getElementById('warning-screen');
   const terminalScreen = document.getElementById('terminal-screen');
-  const exitScreen     = document.getElementById('exit-screen');
+  const finalScreen    = document.getElementById('final-screen');
   const startBtn       = document.getElementById('start-btn');
-  const exitBtn        = document.getElementById('exit-btn');
 
-  // Список строк: [текст, css-класс, задержка после появления (мс)]
+  /*
+    ВАЖНО: время подобрано так, чтобы весь процесс шёл ~5 минут (300 сек).
+    Считал: сумма всех задержек + пауза после 100% ≈ 300 000 мс.
+
+    Хотите быстрее/медленнее — пропорционально меняйте числа.
+    Например, чтобы уложиться в 2.5 минуты — поделите все числа на 2.
+  */
+
   const script = [
-    // --- Запуск системы ---
-    ['- Запуск системы', 'green', 400],
+    // === Запуск системы ===
+    ['- Запуск системы', 'green', 3000],
 
-    // --- Прогресс загрузки системы ---
-    ['- 0%',  'green', 200],
-    ['- 15%', 'green', 200],
-    ['- 26%', 'green', 200],
-    ['- 33%', 'green', 200],
-    ['- 52%', 'green', 200],
-    ['- 68%', 'green', 200],
-    ['- 82%', 'green', 200],
-    ['- 93%', 'green', 200],
-    ['- 99%', 'green', 200],
-    ['- 100%','green', 500],
+    // === Прогресс загрузки системы (~2 мин) ===
+    ['- 0%',  'green', 11000],
+    ['- 15%', 'green', 11000],
+    ['- 26%', 'green', 11000],
+    ['- 33%', 'green', 11000],
+    ['- 52%', 'green', 11000],
+    ['- 68%', 'green', 11000],
+    ['- 82%', 'green', 11000],
+    ['- 93%', 'green', 11000],
+    ['- 99%', 'green', 11000],
+    ['- 100%','green', 4000],
 
-    ['- Система загружена', 'green', 700],
+    ['- Система загружена', 'green', 5000],
 
-    // --- Запуск «антивируса» ---
-    ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 700],
-    ['- Z.E.R.O.A.I - запущен', 'mixed', 700],
+    // === Запуск антивируса ===
+    ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 5000],
+    ['- Z.E.R.O.A.I - запущен', 'mixed', 5000],
 
-    // --- Удаление данных ---
-    ['- Удаление данных телефона', 'red', 500],
+    // === Удаление данных ===
+    ['- Удаление данных телефона', 'red', 5000],
 
-    ['- 0%',  'green', 180],
-    ['- 15%', 'green', 180],
-    ['- 26%', 'green', 180],
-    ['- 33%', 'green', 180],
-    ['- 52%', 'green', 180],
-    ['- 68%', 'green', 180],
-    ['- 82%', 'green', 180],
-    ['- 93%', 'green', 180],
-    ['- 99%', 'green', 180],
-    ['- 100%','green', 600],
+    // Прогресс удаления (~2 мин)
+    ['- 0%',  'green', 11000],
+    ['- 15%', 'green', 11000],
+    ['- 26%', 'green', 11000],
+    ['- 33%', 'green', 11000],
+    ['- 52%', 'green', 11000],
+    ['- 68%', 'green', 11000],
+    ['- 82%', 'green', 11000],
+    ['- 93%', 'green', 11000],
+    ['- 99%', 'green', 11000],
+    ['- 100%','green', 4000],
 
-    ['- Удаление данных успешно завершено!', 'green', 500],
-    ['- Вирус удален с устройства',          'green', 500],
-    ['- Закрытие программы',                 'green', 500],
-    ['- Программа закрыта',                  'red',   800],
+    ['- Удаление данных успешно завершено!', 'green', 4000],
+    ['- Вирус удален с устройства',          'green', 4000],
+    ['- Закрытие программы',                 'green', 4000],
+    ['- Программа закрыта',                  'red',   5000],
   ];
 
-  // Функция, которая печатает одну строку
   function printLine(text, cssClass) {
     const p = document.createElement('p');
-
-    // Особый случай: "Z.E.R.O.A.I" красным, "- запущен" зелёным
     if (cssClass === 'mixed') {
       p.innerHTML =
         '<span class="red">- Z.E.R.O.A.I</span> ' +
@@ -204,26 +246,22 @@
       p.className = cssClass;
       p.textContent = text;
     }
-
     terminalScreen.appendChild(p);
-    // Автопрокрутка вниз
     terminalScreen.scrollTop = terminalScreen.scrollHeight;
   }
 
-  // Запуск всей последовательности
   function runSequence() {
     let i = 0;
 
     function next() {
       if (i >= script.length) {
-        // После последней строки — пауза и показ экрана выхода
+        // Финальный экран
         setTimeout(() => {
           terminalScreen.style.display = 'none';
-          exitScreen.style.display = 'flex';
-        }, 1200);
+          finalScreen.style.display = 'flex';
+        }, 1500);
         return;
       }
-
       const [text, cls, delay] = script[i];
       printLine(text, cls);
       i++;
@@ -233,28 +271,12 @@
     next();
   }
 
-  // Клик по «УБРАТЬ ВИРУС»
   startBtn.addEventListener('click', () => {
     warningScreen.style.display  = 'none';
     terminalScreen.style.display = 'block';
     runSequence();
   });
-
-  // Клик по «ВЫЙТИ ИЗ САЙТА»
-  exitBtn.addEventListener('click', () => {
-    // Пытаемся закрыть вкладку
-    window.close();
-    // Если браузер не дал закрыть (обычно так и есть) —
-    // показываем страницу-заглушку
-    setTimeout(() => {
-      document.body.innerHTML =
-        '<div style="text-align:center;color:#0f0;font-family:monospace;font-size:22px;padding:40px">' +
-        'Спасибо! Можете закрыть вкладку вручную.<br><br>' +
-        '<span style="color:#ff2b2b">⚠️ Это была шутка. Никакого вируса нет.</span>' +
-        '</div>';
-    }, 300);
-  });
 </script>
 
 </body>
-  </html>
+</html>
