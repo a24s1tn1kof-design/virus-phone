@@ -100,27 +100,38 @@
     background: transparent;
     color: #ffcc00;
     font-family: inherit;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
-    padding: 6px 10px;
+    padding: 8px 14px;
     border: 1px solid #ffcc00;
     border-radius: 6px;
     cursor: pointer;
     white-space: nowrap;
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    min-width: 140px;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
   }
   #speedup-btn:active { background: rgba(255,204,0,0.15); }
+
   #file-counter {
     color: #ff2b2b;
-    font-size: 12px;
+    font-size: 14px;
     font-family: 'Courier New', monospace;
     background: rgba(0,0,0,0.95);
-    padding: 6px 10px;
+    padding: 6px 12px;
     border: 1px solid #ff2b2b;
     border-radius: 6px;
     display: none;
     white-space: nowrap;
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    min-width: 175px;
+    max-width: 175px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
   }
 
   #terminal-screen {
@@ -267,11 +278,10 @@
     <div id="device-info"></div>
     <div id="header-row">
       <button id="speedup-btn">[ УСКОРИТЬ ]</button>
-      <div id="file-counter">Удалено: 0</div>
+      <div id="file-counter">Удалено файлов: 0</div>
     </div>
   </div>
 
-  <!-- Модалка для запуска ускорения -->
   <div id="speedup-modal">
     <div class="box">
       <div class="title" id="speedup-modal-title">
@@ -322,8 +332,7 @@
   let timeouts     = [];
   let counterTimer = null;
   let fileCount    = 0;
-  let stoppedAt    = -1;      // индекс текущей строки
-  let pausedQueue  = [];      // оставшиеся строки
+  let stoppedAt    = -1;
 
   function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -479,7 +488,7 @@
     counterTimer = setInterval(() => {
       const base = speedMode ? 800 : 5;
       fileCount = Math.min(fileCount + base, 10000);
-      fileCounter.textContent = 'Удалено: ' + fileCount.toLocaleString('ru-RU');
+      fileCounter.textContent = 'Удалено файлов: ' + fileCount.toLocaleString('ru-RU');
       if (fileCount >= 10000) stopCounter();
     }, 150);
   }
@@ -514,7 +523,7 @@
   function finishSequence() {
     stopCounter();
     fileCount = 10000;
-    fileCounter.textContent = 'Удалено: 10 000';
+    fileCounter.textContent = 'Удалено файлов: 10 000';
 
     setTimeout(() => {
       terminalScreen.style.display = 'none';
@@ -528,18 +537,14 @@
     }, 1500);
   }
 
-  // Запуск оставшихся строк в обычном темпе (после остановки ускорения)
   function resumeNormalSpeed() {
     speedMode = false;
 
-    // Очищаем таймеры ускорения
     timeouts.forEach(id => clearTimeout(id));
     timeouts = [];
 
-    // Оставшиеся строки (от индекса stoppedAt + 1)
     const remaining = timeline.slice(stoppedAt + 1);
 
-    // Печатаем последовательно с обычными паузами
     let i = 0;
     function next() {
       if (aborted || i >= remaining.length) {
@@ -551,7 +556,6 @@
       typeLine(text, cls, true).then(() => {
         if (action === 'shake') shakeScreen();
         i++;
-        // Обычная пауза между строками в медленном режиме ~1500мс
         const t = setTimeout(next, 1500);
         timeouts.push(t);
       });
@@ -593,19 +597,14 @@
     speedupBtn.textContent = '[ УСКОРЯЕТСЯ ]';
   }
 
-  // ==========================================================
-  // Обработчик кнопки "УСКОРИТЬ / УСКОРЯЕТСЯ"
-  // ==========================================================
   speedupBtn.addEventListener('click', () => {
     if (speedMode) {
-      // Ускорение уже идёт — спрашиваем об остановке
       speedupTitle.innerHTML =
         'Остановить ускорение?<br>Процесс продолжится с текущего места';
       speedupYes.textContent = 'ОСТАНОВИТЬ';
       speedupNo.textContent  = 'ПРОДОЛЖИТЬ';
       speedupModal.style.display = 'flex';
     } else {
-      // Обычный режим — предлагаем ускорить
       speedupTitle.innerHTML =
         'Ускорение может работать некорректно.<br>Продолжить?';
       speedupYes.textContent = 'АКТИВИРОВАТЬ';
@@ -618,11 +617,9 @@
     speedupModal.style.display = 'none';
 
     if (speedMode) {
-      // Останавливаем ускорение
       speedupBtn.textContent = '[ УСКОРИТЬ ]';
       resumeNormalSpeed();
     } else {
-      // Активируем ускорение
       activateSpeedMode();
     }
   });
@@ -638,7 +635,7 @@
     buildDeviceInfo();
     topBar.style.display = 'flex';
     fileCounter.style.display = 'block';
-    fileCounter.textContent = 'Удалено: 0';
+    fileCounter.textContent = 'Удалено файлов: 0';
     speedupBtn.style.display = 'inline-block';
 
     stoppedAt = -1;
