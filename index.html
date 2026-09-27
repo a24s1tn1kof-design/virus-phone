@@ -546,6 +546,11 @@
   function activateSpeedMode() {
     speedMode = true;
 
+    // Если счётчик ещё не запущен — запускаем сейчас
+    if (counterTimer === null) {
+      startCounter();
+    }
+
     timeouts.forEach(id => clearTimeout(id));
     timeouts = [];
 
@@ -570,7 +575,7 @@
     const finalId = setTimeout(finishSequence, totalMs + 2000);
     timeouts.push(finalId);
 
-    // Кнопка НЕ пропадает — меняем текст и делаем неактивной
+    // Кнопка НЕ пропадает — меняем текст
     speedupBtn.textContent = '[ УСКОРЯЕТСЯ ]';
     speedupBtn.disabled = true;
     speedupBtn.style.opacity = '0.6';
@@ -603,12 +608,17 @@
     scheduleSequence();
   });
 
+  // ==========================================================
+  // Кнопка "ЗАКРЫТЬ ВКЛАДКУ"
+  // 1) Пробуем закрыть через window.close()
+  // 2) Если не получилось — показываем экран "Закройте вручную"
+  // ==========================================================
   closeBtn.addEventListener('click', () => {
     try {
       window.close();
       setTimeout(() => {
         if (!document.hidden) showWarningExit();
-      }, 200);
+      }, 300);
     } catch (e) {
       showWarningExit();
     }
