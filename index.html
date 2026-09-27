@@ -18,135 +18,153 @@
     text-align: center;
     padding: 20px;
     overflow: hidden;
+    position: relative;
   }
 
-  /* ===== CSS-иконка: треугольник с восклицательным знаком ===== */
+  /* ===== Эффект 5: дрожание экрана ===== */
+  @keyframes shake {
+    0%,100% { transform: translate(0,0); }
+    25%     { transform: translate(-4px, 3px); }
+    50%     { transform: translate(4px, -3px); }
+    75%     { transform: translate(-3px, -3px); }
+  }
+  body.shake { animation: shake 0.35s; }
+
+  /* ===== Иконки ===== */
   .warn-icon {
     display: inline-block;
-    width: 44px;
-    height: 44px;
+    width: 44px; height: 44px;
     position: relative;
     vertical-align: middle;
     margin: 0 8px;
   }
   .warn-icon::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: red;
     clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
   }
   .warn-icon::after {
-    content: '!';
-    position: absolute;
-    top: 55%;
-    left: 50%;
+    content: '!'; position: absolute;
+    top: 55%; left: 50%;
     transform: translate(-50%, -50%);
-    color: #000;
-    font-weight: bold;
-    font-size: 22px;
-    font-family: Arial, sans-serif;
+    color: #000; font-weight: bold;
+    font-size: 22px; font-family: Arial, sans-serif;
   }
 
-  /* ===== Иконка "крестик" для финала ===== */
   .cross-icon {
     display: inline-block;
-    width: 32px;
-    height: 32px;
+    width: 32px; height: 32px;
     position: relative;
     vertical-align: middle;
     margin-right: 10px;
   }
   .cross-icon::before,
   .cross-icon::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: #ff2b2b;
-    border-radius: 2px;
+    content: ''; position: absolute;
+    top: 50%; left: 0;
+    width: 100%; height: 4px;
+    background: #ff2b2b; border-radius: 2px;
   }
   .cross-icon::before { transform: rotate(45deg); }
   .cross-icon::after  { transform: rotate(-45deg); }
 
-  /* ---- Экран 1: предупреждение ---- */
+  /* ---- Экран 1 ---- */
   #warning-screen { max-width: 640px; }
-
   .alert-title {
-    color: red;
-    font-size: 26px;
-    font-weight: bold;
+    color: red; font-size: 26px; font-weight: bold;
     animation: blink 1s infinite;
-    margin-bottom: 30px;
-    line-height: 1.6;
+    margin-bottom: 30px; line-height: 1.6;
   }
-
   .alert-text {
-    color: #0f0;
-    font-size: 18px;
-    margin-bottom: 40px;
-    line-height: 1.6;
+    color: #0f0; font-size: 18px;
+    margin-bottom: 40px; line-height: 1.6;
   }
-
   #start-btn {
-    background: red;
-    color: #fff;
-    font-family: inherit;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 20px 40px;
-    border: 3px solid #ff5555;
-    border-radius: 12px;
-    cursor: pointer;
+    background: red; color: #fff;
+    font-family: inherit; font-size: 20px; font-weight: bold;
+    padding: 20px 40px; border: 3px solid #ff5555;
+    border-radius: 12px; cursor: pointer;
     box-shadow: 0 0 25px rgba(255,0,0,0.8);
     animation: pulse 1.5s infinite;
   }
   #start-btn:active { transform: scale(0.96); }
-
   @keyframes blink { 50% { opacity: 0.15; } }
   @keyframes pulse {
     0%,100% { box-shadow: 0 0 25px rgba(255,0,0,0.8); }
     50%     { box-shadow: 0 0 45px rgba(255,0,0,1); }
   }
 
-  /* ---- Экран 2: терминал ---- */
+  /* ---- Экран 2 ---- */
   #terminal-screen {
     display: none;
-    width: 100%;
-    height: 100vh;
+    width: 100%; height: 100vh;
     padding: 25px 20px;
     text-align: left;
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: 16px; line-height: 1.7;
     overflow-y: auto;
+    position: relative;
   }
-
   #terminal-screen p {
     white-space: pre-wrap;
     word-break: break-word;
   }
+  .green { color: #0f0; }
+  .red   { color: #ff2b2b; }
 
-  .green  { color: #0f0; }
-  .red    { color: #ff2b2b; }
+  /* ===== Эффект 11: счётчик удалённых файлов (фикс. в углу) ===== */
+  #file-counter {
+    position: fixed;
+    top: 12px; right: 16px;
+    color: #ff2b2b;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border: 1px solid #ff2b2b;
+    border-radius: 6px;
+    display: none;
+    z-index: 100;
+  }
 
-  /* ---- Экран 3: финал ---- */
+  /* ===== Эффект 12: инфо-блок с IP/гео/моделью ===== */
+  #device-info {
+    position: fixed;
+    top: 12px; left: 16px;
+    color: #0f0;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border: 1px solid #0f0;
+    border-radius: 6px;
+    text-align: left;
+    line-height: 1.5;
+    display: none;
+    z-index: 100;
+    white-space: pre;
+  }
+
+  /* ===== Эффект 13: мигающий курсор ===== */
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    background: #0f0;
+    animation: cursorBlink 0.7s steps(1) infinite;
+  }
+  @keyframes cursorBlink { 50% { opacity: 0; } }
+
+  /* ---- Экран 3 ---- */
   #final-screen {
     display: none;
     flex-direction: column;
     align-items: center;
     gap: 25px;
   }
-
   #final-screen .final-text {
     color: #0f0;
-    font-size: 26px;
-    font-weight: bold;
+    font-size: 26px; font-weight: bold;
     line-height: 1.5;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
   }
 </style>
 </head>
@@ -171,12 +189,25 @@
   <!-- ЭКРАН 2 -->
   <div id="terminal-screen"></div>
 
+  <!-- Эффект 11: счётчик файлов -->
+  <div id="file-counter">Удалено файлов: 0</div>
+
+  <!-- Эффект 12: инфо об устройстве -->
+  <div id="device-info"></div>
+
   <!-- ЭКРАН 3 -->
   <div id="final-screen">
     <div class="final-text">
       <span class="cross-icon"></span>
       Вирус удален! Закройте вкладку!
     </div>
+    <button id="close-btn" style="
+      margin-top:20px;
+      background:#0f0;color:#000;
+      font-family:inherit;font-size:18px;font-weight:bold;
+      padding:16px 38px;border:none;border-radius:12px;
+      cursor:pointer;box-shadow:0 0 20px rgba(0,255,0,0.7);
+    ">ЗАКРЫТЬ ВКЛАДКУ</button>
   </div>
 
 <script>
@@ -184,20 +215,142 @@
   const terminalScreen = document.getElementById('terminal-screen');
   const finalScreen    = document.getElementById('final-screen');
   const startBtn       = document.getElementById('start-btn');
+  const closeBtn       = document.getElementById('close-btn');
+  const fileCounter    = document.getElementById('file-counter');
+  const deviceInfo     = document.getElementById('device-info');
 
-  /*
-    ВАЖНО: время подобрано так, чтобы весь процесс шёл ~5 минут (300 сек).
-    Считал: сумма всех задержек + пауза после 100% ≈ 300 000 мс.
+  // ==========================================================
+  // ЭФФЕКТ 5: дрожание экрана
+  // ==========================================================
+  function shakeScreen() {
+    document.body.classList.add('shake');
+    setTimeout(() => document.body.classList.remove('shake'), 350);
+  }
 
-    Хотите быстрее/медленнее — пропорционально меняйте числа.
-    Например, чтобы уложиться в 2.5 минуты — поделите все числа на 2.
-  */
+  // ==========================================================
+  // ЭФФЕКТ 9: ASCII-прогресс-бар
+  // ==========================================================
+  function makeBar(pct) {
+    const filled = Math.round(pct / 5);       // 20 сегментов
+    return '[' + '█'.repeat(filled) + '░'.repeat(20 - filled) + ']';
+  }
 
+  // ==========================================================
+  // ЭФФЕКТ 11: счётчик удалённых файлов
+  // ==========================================================
+  let fileCount = 0;
+  let counterTimer = null;
+
+  function startCounter() {
+    fileCounter.style.display = 'block';
+    counterTimer = setInterval(() => {
+      // растёт случайными шагами, чтобы выглядело живо
+      fileCount += Math.floor(Math.random() * 40) + 10;
+      fileCounter.textContent = 'Удалено файлов: ' + fileCount;
+    }, 120);
+  }
+
+  function stopCounter() {
+    if (counterTimer) clearInterval(counterTimer);
+    counterTimer = null;
+  }
+
+  // ==========================================================
+  // ЭФФЕКТ 12: инфо об устройстве с реальной моделью телефона
+  // ==========================================================
+  function detectDeviceModel() {
+    const ua = navigator.userAgent;
+
+    // --- iPhone ---
+    // В Safari можно вытащить модель через специальный паттерн
+    let m;
+
+    // Android: ищем "Android X; Модель" или "Android X; Модель Build/..."
+    m = ua.match(/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\))/i);
+    if (m) return m[1].trim();
+
+    // iPhone (iOS): UA обычно не содержит модель, но проверим
+    if (/iPhone/.test(ua)) return 'iPhone';
+    if (/iPad/.test(ua))   return 'iPad';
+    if (/Macintosh/.test(ua)) return 'Mac';
+    if (/Windows NT/.test(ua)) return 'Windows PC';
+
+    return 'Неизвестное устройство';
+  }
+
+  function getRandomIP() {
+    // Локальный IP-диапазон — не настоящий
+    return '192.168.' + rand(0,255) + '.' + rand(0,255);
+  }
+
+  function getRandomGeo() {
+    const cities = ['Москва, Россия', 'Санкт-Петербург, Россия',
+                    'Казань, Россия', 'Новосибирск, Россия'];
+    return cities[Math.floor(Math.random() * cities.length)];
+  }
+
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function buildDeviceInfo() {
+    const model = detectDeviceModel();
+    const ip    = getRandomIP();
+    const geo   = getRandomGeo();
+
+    deviceInfo.textContent =
+      'IP:        ' + ip + '\n' +
+      'Модель:    ' + model + '\n' +
+      'Локация:   ' + geo;
+  }
+
+  // ==========================================================
+  // ЭФФЕКТ 13: мигающий курсор
+  // ==========================================================
+  let cursorEl = null;
+
+  function attachCursor() {
+    if (cursorEl) cursorEl.remove();
+    cursorEl = document.createElement('span');
+    cursorEl.className = 'cursor';
+    cursorEl.textContent = '\u00A0';
+    terminalScreen.appendChild(cursorEl);
+  }
+
+  // ==========================================================
+  // Печать строк с курсором
+  // ==========================================================
+  function printLine(text, cssClass, withBar) {
+    // Перед новой строкой — убираем старый курсор
+    if (cursorEl) cursorEl.remove();
+
+    const p = document.createElement('p');
+
+    if (cssClass === 'mixed') {
+      p.innerHTML =
+        '<span class="red">- Z.E.R.O.A.I</span> ' +
+        '<span class="green">- запущен</span>';
+    } else if (withBar && /^\-\s\d+%$/.test(text)) {
+      // Эффект 9: заменяем "- 52%" на "- 52% [██████░░░░]"
+      const pct = parseInt(text.match(/\d+/)[0], 10);
+      p.className = cssClass;
+      p.textContent = text + ' ' + makeBar(pct);
+    } else {
+      p.className = cssClass;
+      p.textContent = text;
+    }
+
+    terminalScreen.appendChild(p);
+    attachCursor();
+    terminalScreen.scrollTop = terminalScreen.scrollHeight;
+  }
+
+  // ==========================================================
+  // Сценарий (тайминги ~5 минут)
+  // ==========================================================
   const script = [
-    // === Запуск системы ===
     ['- Запуск системы', 'green', 3000],
 
-    // === Прогресс загрузки системы (~2 мин) ===
     ['- 0%',  'green', 11000],
     ['- 15%', 'green', 11000],
     ['- 26%', 'green', 11000],
@@ -211,14 +364,12 @@
 
     ['- Система загружена', 'green', 5000],
 
-    // === Запуск антивируса ===
     ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 5000],
     ['- Z.E.R.O.A.I - запущен', 'mixed', 5000],
 
-    // === Удаление данных ===
-    ['- Удаление данных телефона', 'red', 5000],
+    // ==== Эффект 5: дрожание при "Удаление данных" ====
+    ['- Удаление данных телефона', 'red', 5000, 'shake'],
 
-    // Прогресс удаления (~2 мин)
     ['- 0%',  'green', 11000],
     ['- 15%', 'green', 11000],
     ['- 26%', 'green', 11000],
@@ -233,37 +384,49 @@
     ['- Удаление данных успешно завершено!', 'green', 4000],
     ['- Вирус удален с устройства',          'green', 4000],
     ['- Закрытие программы',                 'green', 4000],
-    ['- Программа закрыта',                  'red',   5000],
+    ['- Программа закрыта',                  'red',   3000],
   ];
 
-  function printLine(text, cssClass) {
-    const p = document.createElement('p');
-    if (cssClass === 'mixed') {
-      p.innerHTML =
-        '<span class="red">- Z.E.R.O.A.I</span> ' +
-        '<span class="green">- запущен</span>';
-    } else {
-      p.className = cssClass;
-      p.textContent = text;
-    }
-    terminalScreen.appendChild(p);
-    terminalScreen.scrollTop = terminalScreen.scrollHeight;
-  }
-
+  // ==========================================================
+  // Запуск последовательности
+  // ==========================================================
   function runSequence() {
     let i = 0;
 
     function next() {
       if (i >= script.length) {
-        // Финальный экран
+        stopCounter();
+
+        // ===== Эффект 18: финальная "перезагрузка" =====
         setTimeout(() => {
+          // Резко гасим экран
           terminalScreen.style.display = 'none';
-          finalScreen.style.display = 'flex';
+          fileCounter.style.display = 'none';
+          deviceInfo.style.display = 'none';
+
+          document.body.style.background = '#000';
+
+          // Через 1 сек — показываем финал
+          setTimeout(() => {
+            finalScreen.style.display = 'flex';
+          }, 1000);
         }, 1500);
         return;
       }
-      const [text, cls, delay] = script[i];
-      printLine(text, cls);
+
+      const item = script[i];
+      const [text, cls, delay, action] = item;
+
+      printLine(text, cls, true);   // с прогресс-барами
+
+      // Эффект 5: тряска на определённых строках
+      if (action === 'shake') shakeScreen();
+
+      // Эффект 11: старт счётчика файлов при удалении данных
+      if (text === '- Удаление данных телефона') {
+        startCounter();
+      }
+
       i++;
       setTimeout(next, delay);
     }
@@ -271,12 +434,38 @@
     next();
   }
 
+  // ==========================================================
+  // Кнопка "УБРАТЬ ВИРУС"
+  // ==========================================================
   startBtn.addEventListener('click', () => {
     warningScreen.style.display  = 'none';
     terminalScreen.style.display = 'block';
+
+    // Показываем инфо об устройстве
+    buildDeviceInfo();
+    deviceInfo.style.display = 'block';
+
     runSequence();
+  });
+
+  // ==========================================================
+  // ЭФФЕКТ 19: кнопка "ЗАКРЫТЬ ВКЛАДКУ"
+  // ==========================================================
+  closeBtn.addEventListener('click', () => {
+    // Пытаемся закрыть вкладку
+    window.close();
+
+    // Если браузер не разрешил (обычно так и есть для не-скриптовых вкладок),
+    // показываем заглушку
+    setTimeout(() => {
+      document.body.innerHTML =
+        '<div style="text-align:center;color:#0f0;' +
+        'font-family:monospace;font-size:22px;padding:40px;line-height:1.6">' +
+        'Закройте вкладку вручную' +
+        '</div>';
+    }, 400);
   });
 </script>
 
 </body>
-</html>
+ </html>
