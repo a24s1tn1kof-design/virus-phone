@@ -21,7 +21,6 @@
     position: relative;
   }
 
-  /* ===== Эффект 5: дрожание экрана ===== */
   @keyframes shake {
     0%,100% { transform: translate(0,0); }
     25%     { transform: translate(-4px, 3px); }
@@ -30,60 +29,46 @@
   }
   body.shake { animation: shake 0.35s; }
 
-  /* ===== Иконки ===== */
   .warn-icon {
     display: inline-block;
     width: 44px; height: 44px;
-    position: relative;
-    vertical-align: middle;
-    margin: 0 8px;
+    position: relative; vertical-align: middle; margin: 0 8px;
   }
   .warn-icon::before {
     content: ''; position: absolute; inset: 0;
-    background: red;
-    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    background: red; clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
   }
   .warn-icon::after {
     content: '!'; position: absolute;
-    top: 55%; left: 50%;
-    transform: translate(-50%, -50%);
-    color: #000; font-weight: bold;
-    font-size: 22px; font-family: Arial, sans-serif;
+    top: 55%; left: 50%; transform: translate(-50%, -50%);
+    color: #000; font-weight: bold; font-size: 22px;
+    font-family: Arial, sans-serif;
   }
 
   .cross-icon {
-    display: inline-block;
-    width: 32px; height: 32px;
-    position: relative;
-    vertical-align: middle;
-    margin-right: 10px;
+    display: inline-block; width: 32px; height: 32px;
+    position: relative; vertical-align: middle; margin-right: 10px;
   }
-  .cross-icon::before,
-  .cross-icon::after {
-    content: ''; position: absolute;
-    top: 50%; left: 0;
-    width: 100%; height: 4px;
-    background: #ff2b2b; border-radius: 2px;
+  .cross-icon::before, .cross-icon::after {
+    content: ''; position: absolute; top: 50%; left: 0;
+    width: 100%; height: 4px; background: #ff2b2b; border-radius: 2px;
   }
   .cross-icon::before { transform: rotate(45deg); }
   .cross-icon::after  { transform: rotate(-45deg); }
 
-  /* ===== Экран 1 ===== */
+  /* Экран 1 */
   #warning-screen { max-width: 640px; padding: 20px; }
   .alert-title {
     color: red; font-size: 26px; font-weight: bold;
-    animation: blink 1s infinite;
-    margin-bottom: 30px; line-height: 1.6;
+    animation: blink 1s infinite; margin-bottom: 30px; line-height: 1.6;
   }
   .alert-text {
-    color: #0f0; font-size: 18px;
-    margin-bottom: 40px; line-height: 1.6;
+    color: #0f0; font-size: 18px; margin-bottom: 40px; line-height: 1.6;
   }
   #start-btn {
-    background: red; color: #fff;
-    font-family: inherit; font-size: 20px; font-weight: bold;
-    padding: 20px 40px; border: 3px solid #ff5555;
-    border-radius: 12px; cursor: pointer;
+    background: red; color: #fff; font-family: inherit;
+    font-size: 20px; font-weight: bold; padding: 20px 40px;
+    border: 3px solid #ff5555; border-radius: 12px; cursor: pointer;
     box-shadow: 0 0 25px rgba(255,0,0,0.8);
     animation: pulse 1.5s infinite;
   }
@@ -94,156 +79,116 @@
     50%     { box-shadow: 0 0 45px rgba(255,0,0,1); }
   }
 
-  /* ===== Фиксированная шапка ===== */
+  /* Шапка */
   #top-bar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 10px 14px;
-    background: #000;
-    display: none;
-    flex-direction: column;
-    gap: 8px;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 10px 14px; background: #000;
+    display: none; flex-direction: column; gap: 8px;
   }
   #device-info {
     color: #0f0; font-size: 13px;
     font-family: 'Courier New', monospace;
-    background: rgba(0,0,0,0.95);
-    padding: 8px 12px;
-    border: 1px solid #0f0;
-    border-radius: 6px;
-    text-align: left; line-height: 1.5;
-    white-space: pre;
-  }
-  #file-counter {
-    color: #ff2b2b; font-size: 14px;
-    font-family: 'Courier New', monospace;
-    background: rgba(0,0,0,0.95);
-    padding: 6px 12px;
-    border: 1px solid #ff2b2b;
-    border-radius: 6px;
-    align-self: flex-end;
-    display: none;
+    background: rgba(0,0,0,0.95); padding: 8px 12px;
+    border: 1px solid #0f0; border-radius: 6px;
+    text-align: left; line-height: 1.5; white-space: pre;
   }
 
-  /* ===== Терминал ===== */
-  #terminal-screen {
-    display: none;
-    width: 100%;
-    height: 100vh;
-    padding: 150px 20px 40px 20px;
-    text-align: left;
-    font-size: 16px;
-    line-height: 1.7;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    position: relative;
+  /* Ряд под IP-карточкой: кнопка слева, счётчик справа */
+  #header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
   }
-  #terminal-screen p {
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .green { color: #0f0; }
-  .red   { color: #ff2b2b; }
 
-  /* ===== Курсор ===== */
-  .cursor {
-    display: inline-block;
-    width: 10px;
-    height: 1em;
-    background: #0f0;
-    vertical-align: text-bottom;
-    animation: cursorBlink 0.7s steps(1) infinite;
-  }
-  @keyframes cursorBlink { 50% { opacity: 0; } }
-
-  /* ===== Кнопка "УСКОРИТЬ" ===== */
   #speedup-btn {
     display: none;
-    margin: 8px 0 8px 0;
     background: transparent;
     color: #ffcc00;
     font-family: inherit;
     font-size: 13px;
     font-weight: bold;
-    padding: 6px 14px;
+    padding: 8px 14px;
     border: 1px solid #ffcc00;
     border-radius: 6px;
     cursor: pointer;
   }
   #speedup-btn:active { background: rgba(255,204,0,0.15); }
 
-  /* ===== Модалка ускорения ===== */
-  #speedup-modal {
+  #file-counter {
+    color: #ff2b2b; font-size: 14px;
+    font-family: 'Courier New', monospace;
+    background: rgba(0,0,0,0.95); padding: 6px 12px;
+    border: 1px solid #ff2b2b; border-radius: 6px;
     display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  }
+
+  /* Терминал */
+  #terminal-screen {
+    display: none; width: 100%; height: 100vh;
+    padding: 190px 20px 40px 20px;
+    text-align: left; font-size: 16px; line-height: 1.7;
+    overflow-y: auto; scroll-behavior: smooth; position: relative;
+  }
+  #terminal-screen p {
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .green { color: #0f0; }
+  .red   { color: #ff2b2b; }
+
+  /* Курсор */
+  .cursor {
+    display: inline-block; width: 10px; height: 1em;
+    background: #0f0; vertical-align: text-bottom;
+    animation: cursorBlink 0.7s steps(1) infinite;
+  }
+  @keyframes cursorBlink { 50% { opacity: 0; } }
+
+  /* Модалка */
+  #speedup-modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85); z-index: 500;
+    align-items: center; justify-content: center; padding: 20px;
   }
   #speedup-modal .box {
-    background: #000;
-    border: 2px solid #ffcc00;
-    border-radius: 10px;
-    padding: 25px 20px;
-    max-width: 380px;
-    width: 100%;
-    text-align: center;
+    background: #000; border: 2px solid #ffcc00;
+    border-radius: 10px; padding: 25px 20px;
+    max-width: 380px; width: 100%; text-align: center;
     box-shadow: 0 0 40px rgba(255,204,0,0.5);
   }
   #speedup-modal .box .title {
-    color: #ffcc00;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 18px;
-    line-height: 1.5;
+    color: #ffcc00; font-size: 16px; font-weight: bold;
+    margin-bottom: 18px; line-height: 1.5;
   }
   #speedup-modal .box .buttons {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
   }
   #speedup-modal button {
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 12px 22px;
-    border-radius: 8px;
-    cursor: pointer;
-    border: none;
+    font-family: inherit; font-size: 14px; font-weight: bold;
+    padding: 12px 22px; border-radius: 8px; cursor: pointer; border: none;
   }
   #speedup-yes {
     background: #ffcc00; color: #000;
     box-shadow: 0 0 15px rgba(255,204,0,0.7);
   }
   #speedup-no {
-    background: #222; color: #ff2b2b;
-    border: 1px solid #ff2b2b;
+    background: #222; color: #ff2b2b; border: 1px solid #ff2b2b;
   }
   #speedup-modal button:active { transform: scale(0.96); }
 
-  /* ===== Финал ===== */
+  /* Финал */
   #final-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    padding: 20px;
+    display: none; flex-direction: column; align-items: center;
+    gap: 25px; padding: 20px;
   }
   #final-screen .final-text {
     color: #0f0; font-size: 26px; font-weight: bold;
-    line-height: 1.5;
-    display: flex; align-items: center; gap: 10px;
+    line-height: 1.5; display: flex; align-items: center; gap: 10px;
   }
 </style>
 </head>
 <body>
 
-  <!-- ЭКРАН 1 -->
   <div id="warning-screen">
     <div class="alert-title">
       <span class="warn-icon"></span>
@@ -259,16 +204,16 @@
     <button id="start-btn">УБРАТЬ ВИРУС</button>
   </div>
 
-  <!-- ЭКРАН 2 -->
   <div id="terminal-screen"></div>
 
-  <!-- Шапка -->
   <div id="top-bar">
     <div id="device-info"></div>
-    <div id="file-counter">Удалено файлов: 0</div>
+    <div id="header-row">
+      <button id="speedup-btn">[ УСКОРИТЬ ]</button>
+      <div id="file-counter">Удалено файлов: 0</div>
+    </div>
   </div>
 
-  <!-- Модалка ускорения -->
   <div id="speedup-modal">
     <div class="box">
       <div class="title">
@@ -282,18 +227,16 @@
     </div>
   </div>
 
-  <!-- ЭКРАН 3 -->
   <div id="final-screen">
     <div class="final-text">
       <span class="cross-icon"></span>
       Вирус удален! Закройте вкладку!
     </div>
     <button id="close-btn" style="
-      margin-top:20px;
-      background:#0f0;color:#000;
-      font-family:inherit;font-size:18px;font-weight:bold;
-      padding:16px 38px;border:none;border-radius:12px;
-      cursor:pointer;box-shadow:0 0 20px rgba(0,255,0,0.7);
+      margin-top:20px; background:#0f0; color:#000;
+      font-family:inherit; font-size:18px; font-weight:bold;
+      padding:16px 38px; border:none; border-radius:12px;
+      cursor:pointer; box-shadow:0 0 20px rgba(0,255,0,0.7);
     ">ЗАКРЫТЬ ВКЛАДКУ</button>
   </div>
 
@@ -309,58 +252,38 @@
   const topBar         = document.getElementById('top-bar');
   const fileCounter    = document.getElementById('file-counter');
   const deviceInfo     = document.getElementById('device-info');
+  const speedupBtn     = document.getElementById('speedup-btn');
   const speedupModal   = document.getElementById('speedup-modal');
   const speedupYes     = document.getElementById('speedup-yes');
   const speedupNo      = document.getElementById('speedup-no');
 
   // ==========================================================
-  // Флаги
+  // Состояние
   // ==========================================================
-  let speedMode = false;      // включён ли режим ускорения
-  let stopSequence = false;   // прерывание старого цикла
-  let currentTimeout = null;
+  let speedMode   = false;   // включён ли режим ускорения
+  let aborted     = false;   // прерывание при уходе
+  let timeouts    = [];      // все setTimeout, чтобы можно было чистить
+  let counterTimer = null;
 
   // ==========================================================
-  // Эффект 5: тряска
+  // Утилиты
   // ==========================================================
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   function shakeScreen() {
     document.body.classList.add('shake');
     setTimeout(() => document.body.classList.remove('shake'), 350);
   }
 
-  // ==========================================================
-  // Эффект 9: прогресс-бар
-  // ==========================================================
   function makeBar(pct) {
     const filled = Math.round(pct / 5);
     return '[' + '█'.repeat(filled) + '░'.repeat(20 - filled) + ']';
   }
 
   // ==========================================================
-  // Эффект 11: счётчик файлов (до 10.000)
-  // ==========================================================
-  let fileCount = 0;
-  let counterTimer = null;
-
-  function startCounter() {
-    if (counterTimer) clearInterval(counterTimer);
-    counterTimer = setInterval(() => {
-      const step = speedMode
-        ? Math.floor(Math.random() * 300) + 150   // быстрее при ускорении
-        : Math.floor(Math.random() * 60) + 20;    // медленнее обычно
-      fileCount = Math.min(fileCount + step, 10000);
-      fileCounter.textContent = 'Удалено файлов: ' + fileCount.toLocaleString('ru-RU');
-      if (fileCount >= 10000) stopCounter();
-    }, speedMode ? 80 : 140);
-  }
-
-  function stopCounter() {
-    if (counterTimer) clearInterval(counterTimer);
-    counterTimer = null;
-  }
-
-  // ==========================================================
-  // Эффект 12: тип устройства
+  // Инфо об устройстве
   // ==========================================================
   function detectDeviceType() {
     const ua = navigator.userAgent;
@@ -384,16 +307,10 @@
 
   function getRandomGeo() {
     const cities = [
-      'Москва, Россия',
-      'Санкт-Петербург, Россия',
-      'Казань, Россия',
-      'Новосибирск, Россия'
+      'Москва, Россия', 'Санкт-Петербург, Россия',
+      'Казань, Россия', 'Новосибирск, Россия'
     ];
     return cities[Math.floor(Math.random() * cities.length)];
-  }
-
-  function rand(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   function buildDeviceInfo() {
@@ -404,7 +321,7 @@
   }
 
   // ==========================================================
-  // Эффект 13: курсор
+  // Курсор
   // ==========================================================
   let cursorEl = null;
 
@@ -416,10 +333,8 @@
   }
 
   // ==========================================================
-  // ЭФФЕКТ ПЕЧАТНОЙ МАШИНКИ
+  // Эффект печатной машинки
   // ==========================================================
-  // Печатает строку посимвольно. Возвращает Promise,
-  // который резолвится, когда строка полностью напечатана.
   function typeLine(text, cssClass, withBar) {
     return new Promise(resolve => {
       if (cursorEl) cursorEl.remove();
@@ -428,12 +343,10 @@
       p.className = (cssClass === 'mixed') ? '' : cssClass;
       terminalScreen.appendChild(p);
 
-      // Формируем итоговый HTML заранее, но разбиваем на символы
+      // Собираем видимые символы с их классами
       let fullHTML;
       if (cssClass === 'mixed') {
-        fullHTML =
-          '<span class="red">- Z.E.R.O.A.I</span> ' +
-          '<span class="green">- запущен</span>';
+        fullHTML = '<span class="red">- Z.E.R.O.A.I</span> <span class="green">- запущен</span>';
       } else if (withBar && /^\-\s\d+%$/.test(text)) {
         const pct = parseInt(text.match(/\d+/)[0], 10);
         fullHTML = text + ' ' + makeBar(pct);
@@ -441,56 +354,43 @@
         fullHTML = text;
       }
 
-      // Печатаем посимвольно. Так как есть HTML-теги,
-      // используем разбивку на "видимые" символы через временный DOM.
       const temp = document.createElement('div');
       temp.innerHTML = fullHTML;
-
-      // Собираем плоский список: {char, className}
       const chars = [];
       (function walk(node, cls) {
         for (const child of node.childNodes) {
-          if (child.nodeType === 3) { // текст
-            for (const ch of child.textContent) {
-              chars.push({ ch, cls });
-            }
-          } else if (child.nodeType === 1) { // элемент
+          if (child.nodeType === 3) {
+            for (const ch of child.textContent) chars.push({ ch, cls });
+          } else if (child.nodeType === 1) {
             walk(child, child.className || cls);
           }
         }
       })(temp, '');
 
-      // Скорость печати: 20 мс обычная, 3 мс при ускорении
-      const speed = speedMode ? 3 : 22;
-
+      // Скорость печати: 3 мс при ускорении, 20 мс обычно
+      const speed = speedMode ? 3 : 20;
       let idx = 0;
 
       function typeNext() {
-        if (stopSequence) { resolve(); return; }
-
+        if (aborted) { resolve(); return; }
         if (idx >= chars.length) {
           attachCursor();
           resolve();
           return;
         }
-
         const { ch, cls } = chars[idx];
-
-        // Накапливаем текущий span
         if (p._spanClass !== cls) {
           const span = document.createElement('span');
           if (cls) span.className = cls;
           p.appendChild(span);
           p._spanClass = cls;
         }
-        const last = p.lastChild;
-        last.textContent += ch;
-
+        p.lastChild.textContent += ch;
         terminalScreen.scrollTop = terminalScreen.scrollHeight;
         idx++;
-        currentTimeout = setTimeout(typeNext, speed);
+        const t = setTimeout(typeNext, speed);
+        timeouts.push(t);
       }
-
       typeNext();
     });
   }
@@ -498,98 +398,114 @@
   // ==========================================================
   // Сценарий
   // ==========================================================
-  const script = [
-    ['- Запуск системы', 'green', 500],
+  // Каждая строка: [текст, класс, время появления от старта (мс), action?]
+  // Общая длительность: 300000 мс = 5 минут
+  const timeline = [
+    ['- Запуск системы', 'green', 2000],
 
-    ['- 0%',  'green', 800],
-    ['- 15%', 'green', 800],
-    ['- 26%', 'green', 800],
-    ['- 33%', 'green', 800],
-    ['- 52%', 'green', 800],
-    ['- 68%', 'green', 800],
-    ['- 82%', 'green', 800],
-    ['- 93%', 'green', 800],
-    ['- 99%', 'green', 800],
-    ['- 100%','green', 1200],
+    ['- 0%',  'green', 5000],
+    ['- 15%', 'green', 19000],
+    ['- 26%', 'green', 33000],
+    ['- 33%', 'green', 47000],
+    ['- 52%', 'green', 61000],
+    ['- 68%', 'green', 75000],
+    ['- 82%', 'green', 89000],
+    ['- 93%', 'green', 103000],
+    ['- 99%', 'green', 117000],
+    ['- 100%','green', 130000],
 
-    ['- Система загружена', 'green', 1500],
+    ['- Система загружена', 'green', 137000],
 
-    ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 1500],
-    ['- Z.E.R.O.A.I - запущен', 'mixed', 1500],
+    ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 145000],
+    ['- Z.E.R.O.A.I - запущен', 'mixed', 153000],
 
-    ['- Удаление данных телефона', 'red', 800, 'shake'],
+    ['- Удаление данных телефона', 'red', 161000, 'shake'],
 
-    ['- 0%',  'green', 800],
-    ['- 15%', 'green', 800],
-    ['- 26%', 'green', 800],
-    ['- 33%', 'green', 800],
-    ['- 52%', 'green', 800],
-    ['- 68%', 'green', 800],
-    ['- 82%', 'green', 800],
-    ['- 93%', 'green', 800],
-    ['- 99%', 'green', 800],
-    ['- 100%','green', 1200],
+    ['- 0%',  'green', 165000],
+    ['- 15%', 'green', 178000],
+    ['- 26%', 'green', 191000],
+    ['- 33%', 'green', 204000],
+    ['- 52%', 'green', 217000],
+    ['- 68%', 'green', 230000],
+    ['- 82%', 'green', 243000],
+    ['- 93%', 'green', 256000],
+    ['- 99%', 'green', 269000],
+    ['- 100%','green', 282000],
 
-    ['- Удаление данных успешно завершено!', 'green', 1200],
-    ['- Вирус удален с устройства',          'green', 1200],
-    ['- Закрытие программы',                 'green', 1200],
-    ['- Программа закрыта',                  'red',   2000],
+    ['- Удаление данных успешно завершено!', 'green', 287000],
+    ['- Вирус удален с устройства',          'green', 291000],
+    ['- Закрытие программы',                 'green', 294000],
+    ['- Программа закрыта',                  'red',   297000],
   ];
 
   // ==========================================================
-  // Создание кнопки "УСКОРИТЬ" возле строки удаления
+  // Счётчик файлов (до 10 000)
   // ==========================================================
-  function insertSpeedupButton() {
-    const btn = document.createElement('button');
-    btn.id = 'speedup-btn';
-    btn.textContent = '[ УСКОРИТЬ ]';
-    btn.addEventListener('click', () => {
-      speedupModal.style.display = 'flex';
-    });
-    terminalScreen.appendChild(btn);
-    btn.style.display = 'inline-block';
-    terminalScreen.scrollTop = terminalScreen.scrollHeight;
+  let fileCount = 0;
+
+  function startCounter() {
+    if (counterTimer) clearInterval(counterTimer);
+
+    // За 5 минут надо набрать 10 000 → ~33 файла в секунду.
+    // Тик каждые 150 мс → ~5 файлов за тик.
+    // При ускорении — быстрее.
+    counterTimer = setInterval(() => {
+      const base = speedMode ? 800 : 5;
+      fileCount = Math.min(fileCount + base, 10000);
+      fileCounter.textContent = 'Удалено файлов: ' + fileCount.toLocaleString('ru-RU');
+      if (fileCount >= 10000) stopCounter();
+    }, 150);
+  }
+
+  function stopCounter() {
+    if (counterTimer) clearInterval(counterTimer);
+    counterTimer = null;
   }
 
   // ==========================================================
-  // Запуск последовательности
+  // Планирование строк по таймлайну
   // ==========================================================
-  async function runSequence() {
-    stopSequence = false;
-    speedMode = false;
+  function scheduleSequence() {
+    const startTime = Date.now();
 
-    for (let i = 0; i < script.length; i++) {
-      if (stopSequence) return;
+    timeline.forEach(item => {
+      const [text, cls, t, action] = item;
+      const delay = Math.max(0, t - (Date.now() - startTime));
 
-      const item = script[i];
-      const [text, cls, delay, action] = item;
+      const id = setTimeout(async () => {
+        if (aborted) return;
 
-      // Печатаем посимвольно
-      await typeLine(text, cls, true);
+        await typeLine(text, cls, true);
 
-      if (action === 'shake') shakeScreen();
+        if (action === 'shake') shakeScreen();
 
-      // Возле строки удаления — вставляем кнопку ускорения
-      if (text === '- Удаление данных телефона') {
-        insertSpeedupButton();
-        startCounter();
-      }
+        // На строке "Удаление данных телефона" — включаем счётчик
+        // и показываем кнопку "УСКОРИТЬ" в шапке
+        if (text === '- Удаление данных телефона') {
+          startCounter();
+          speedupBtn.style.display = 'inline-block';
+        }
+      }, delay);
 
-      // Пауза после строки (уменьшаем, если включён speedMode)
-      await new Promise(res => setTimeout(res, speedMode ? Math.min(delay, 200) : delay));
-    }
+      timeouts.push(id);
+    });
 
-    // === ФИНАЛ ===
+    // Финал
+    const finalId = setTimeout(finishSequence, 300000); // ровно 5 минут
+    timeouts.push(finalId);
+  }
+
+  // ==========================================================
+  // Финал
+  // ==========================================================
+  function finishSequence() {
     stopCounter();
-
-    // Догоняем счётчик до 10000
     fileCount = 10000;
     fileCounter.textContent = 'Удалено файлов: 10 000';
 
     setTimeout(() => {
       terminalScreen.style.display = 'none';
       topBar.style.display = 'none';
-      fileCounter.style.display = 'none';
       speedupModal.style.display = 'none';
       document.body.style.background = '#000';
 
@@ -600,28 +516,62 @@
   }
 
   // ==========================================================
-  // Обработка кнопок модалки ускорения
+  // Ускорение: перепланируем оставшиеся строки на 20 секунд
   // ==========================================================
-  speedupYes.addEventListener('click', () => {
-    speedupModal.style.display = 'none';
+  function activateSpeedMode() {
     speedMode = true;
 
-    // Убираем кнопку "УСКОРИТЬ"
-    const btn = document.getElementById('speedup-btn');
-    if (btn) btn.remove();
+    // Очищаем все запланированные setTimeout
+    timeouts.forEach(id => clearTimeout(id));
+    timeouts = [];
 
-    // Перезапускаем счётчик в ускоренном режиме
-    // (если он идёт — startCounter уже переопределён через speedMode)
+    // Определяем, какие строки ещё не напечатаны
+    const printedCount = terminalScreen.querySelectorAll('p').length;
+
+    // Оставшиеся строки
+    const remaining = timeline.slice(printedCount);
+
+    // Растягиваем их на 20 секунд равномерно
+    const totalMs = 20000;
+    const step = remaining.length > 1 ? totalMs / remaining.length : totalMs;
+
+    remaining.forEach((item, i) => {
+      const [text, cls, , action] = item;
+      const delay = i * step;
+
+      const id = setTimeout(async () => {
+        if (aborted) return;
+        await typeLine(text, cls, true);
+        if (action === 'shake') shakeScreen();
+      }, delay);
+
+      timeouts.push(id);
+    });
+
+    // Финал через 20 секунд + 2 секунды на печать последней строки
+    const finalId = setTimeout(finishSequence, totalMs + 2000);
+    timeouts.push(finalId);
+
+    // Убираем кнопку ускорения, чтобы нельзя было нажать дважды
+    speedupBtn.style.display = 'none';
+  }
+
+  // ==========================================================
+  // Обработчики
+  // ==========================================================
+  speedupBtn.addEventListener('click', () => {
+    speedupModal.style.display = 'flex';
+  });
+
+  speedupYes.addEventListener('click', () => {
+    speedupModal.style.display = 'none';
+    activateSpeedMode();
   });
 
   speedupNo.addEventListener('click', () => {
     speedupModal.style.display = 'none';
-    // Ничего не меняем — продолжаем медленно
   });
 
-  // ==========================================================
-  // Кнопка "УБРАТЬ ВИРУС"
-  // ==========================================================
   startBtn.addEventListener('click', () => {
     warningScreen.style.display  = 'none';
     terminalScreen.style.display = 'block';
@@ -631,18 +581,13 @@
     fileCounter.style.display = 'block';
     fileCounter.textContent = 'Удалено файлов: 0';
 
-    runSequence();
+    scheduleSequence();
   });
 
-  // ==========================================================
-  // Кнопка "ЗАКРЫТЬ ВКЛАДКУ"
-  // ==========================================================
   closeBtn.addEventListener('click', () => {
-    // Пытаемся закрыть разными способами
     try { window.open('', '_self').close(); } catch(e) {}
     window.close();
 
-    // Если браузер не дал закрыть — показываем заглушку
     setTimeout(() => {
       document.body.innerHTML =
         '<div style="text-align:center;color:#0f0;' +
@@ -655,4 +600,4 @@
 </script>
 
 </body>
-     </html>
+ </html>
