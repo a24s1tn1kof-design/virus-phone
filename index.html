@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 20px;
+    padding: 0;
     overflow: hidden;
     position: relative;
   }
@@ -30,7 +30,7 @@
   }
   body.shake { animation: shake 0.35s; }
 
-  /* ===== Иконки ===== */
+  /* ===== Иконка "треугольник с !" ===== */
   .warn-icon {
     display: inline-block;
     width: 44px; height: 44px;
@@ -51,6 +51,7 @@
     font-size: 22px; font-family: Arial, sans-serif;
   }
 
+  /* ===== Иконка "крестик" ===== */
   .cross-icon {
     display: inline-block;
     width: 32px; height: 32px;
@@ -68,22 +69,35 @@
   .cross-icon::before { transform: rotate(45deg); }
   .cross-icon::after  { transform: rotate(-45deg); }
 
-  /* ---- Экран 1 ---- */
-  #warning-screen { max-width: 640px; }
+  /* ===== Экран 1: предупреждение ===== */
+  #warning-screen {
+    max-width: 640px;
+    padding: 20px;
+  }
   .alert-title {
-    color: red; font-size: 26px; font-weight: bold;
+    color: red;
+    font-size: 26px;
+    font-weight: bold;
     animation: blink 1s infinite;
-    margin-bottom: 30px; line-height: 1.6;
+    margin-bottom: 30px;
+    line-height: 1.6;
   }
   .alert-text {
-    color: #0f0; font-size: 18px;
-    margin-bottom: 40px; line-height: 1.6;
+    color: #0f0;
+    font-size: 18px;
+    margin-bottom: 40px;
+    line-height: 1.6;
   }
   #start-btn {
-    background: red; color: #fff;
-    font-family: inherit; font-size: 20px; font-weight: bold;
-    padding: 20px 40px; border: 3px solid #ff5555;
-    border-radius: 12px; cursor: pointer;
+    background: red;
+    color: #fff;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 40px;
+    border: 3px solid #ff5555;
+    border-radius: 12px;
+    cursor: pointer;
     box-shadow: 0 0 25px rgba(255,0,0,0.8);
     animation: pulse 1.5s infinite;
   }
@@ -94,14 +108,58 @@
     50%     { box-shadow: 0 0 45px rgba(255,0,0,1); }
   }
 
-  /* ---- Экран 2 ---- */
+  /* ===== Фиксированная шапка ===== */
+  #top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 10px 14px;
+    background: #000;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Инфо об устройстве */
+  #device-info {
+    color: #0f0;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    background: rgba(0,0,0,0.95);
+    padding: 8px 12px;
+    border: 1px solid #0f0;
+    border-radius: 6px;
+    text-align: left;
+    line-height: 1.5;
+    white-space: pre;
+  }
+
+  /* Счётчик файлов */
+  #file-counter {
+    color: #ff2b2b;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    background: rgba(0,0,0,0.95);
+    padding: 6px 12px;
+    border: 1px solid #ff2b2b;
+    border-radius: 6px;
+    align-self: flex-end;
+    display: none;
+  }
+
+  /* ===== Экран 2: терминал ===== */
   #terminal-screen {
     display: none;
-    width: 100%; height: 100vh;
-    padding: 25px 20px;
+    width: 100%;
+    height: 100vh;
+    padding: 150px 20px 40px 20px;
     text-align: left;
-    font-size: 16px; line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.7;
     overflow-y: auto;
+    scroll-behavior: smooth;
     position: relative;
   }
   #terminal-screen p {
@@ -111,66 +169,39 @@
   .green { color: #0f0; }
   .red   { color: #ff2b2b; }
 
-  /* ===== Эффект 11: счётчик удалённых файлов (фикс. в углу) ===== */
-  #file-counter {
-    position: fixed;
-    top: 12px; right: 16px;
-    color: #ff2b2b;
-    font-size: 14px;
-    font-family: 'Courier New', monospace;
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border: 1px solid #ff2b2b;
-    border-radius: 6px;
-    display: none;
-    z-index: 100;
-  }
-
-  /* ===== Эффект 12: инфо-блок с IP/гео/моделью ===== */
-  #device-info {
-    position: fixed;
-    top: 12px; left: 16px;
-    color: #0f0;
-    font-size: 13px;
-    font-family: 'Courier New', monospace;
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border: 1px solid #0f0;
-    border-radius: 6px;
-    text-align: left;
-    line-height: 1.5;
-    display: none;
-    z-index: 100;
-    white-space: pre;
-  }
-
   /* ===== Эффект 13: мигающий курсор ===== */
   .cursor {
     display: inline-block;
     width: 10px;
+    height: 1em;
     background: #0f0;
+    vertical-align: text-bottom;
     animation: cursorBlink 0.7s steps(1) infinite;
   }
   @keyframes cursorBlink { 50% { opacity: 0; } }
 
-  /* ---- Экран 3 ---- */
+  /* ===== Экран 3: финал ===== */
   #final-screen {
     display: none;
     flex-direction: column;
     align-items: center;
     gap: 25px;
+    padding: 20px;
   }
   #final-screen .final-text {
     color: #0f0;
-    font-size: 26px; font-weight: bold;
+    font-size: 26px;
+    font-weight: bold;
     line-height: 1.5;
-    display: flex; align-items: center; gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 </style>
 </head>
 <body>
 
-  <!-- ЭКРАН 1 -->
+  <!-- ЭКРАН 1: предупреждение -->
   <div id="warning-screen">
     <div class="alert-title">
       <span class="warn-icon"></span>
@@ -186,16 +217,16 @@
     <button id="start-btn">УБРАТЬ ВИРУС</button>
   </div>
 
-  <!-- ЭКРАН 2 -->
+  <!-- ЭКРАН 2: терминал -->
   <div id="terminal-screen"></div>
 
-  <!-- Эффект 11: счётчик файлов -->
-  <div id="file-counter">Удалено файлов: 0</div>
+  <!-- Фиксированная шапка -->
+  <div id="top-bar">
+    <div id="device-info"></div>
+    <div id="file-counter">Удалено файлов: 0</div>
+  </div>
 
-  <!-- Эффект 12: инфо об устройстве -->
-  <div id="device-info"></div>
-
-  <!-- ЭКРАН 3 -->
+  <!-- ЭКРАН 3: финал -->
   <div id="final-screen">
     <div class="final-text">
       <span class="cross-icon"></span>
@@ -211,11 +242,15 @@
   </div>
 
 <script>
+  // ==========================================================
+  // Получаем элементы
+  // ==========================================================
   const warningScreen  = document.getElementById('warning-screen');
   const terminalScreen = document.getElementById('terminal-screen');
   const finalScreen    = document.getElementById('final-screen');
   const startBtn       = document.getElementById('start-btn');
   const closeBtn       = document.getElementById('close-btn');
+  const topBar         = document.getElementById('top-bar');
   const fileCounter    = document.getElementById('file-counter');
   const deviceInfo     = document.getElementById('device-info');
 
@@ -231,7 +266,7 @@
   // ЭФФЕКТ 9: ASCII-прогресс-бар
   // ==========================================================
   function makeBar(pct) {
-    const filled = Math.round(pct / 5);       // 20 сегментов
+    const filled = Math.round(pct / 5);
     return '[' + '█'.repeat(filled) + '░'.repeat(20 - filled) + ']';
   }
 
@@ -242,9 +277,7 @@
   let counterTimer = null;
 
   function startCounter() {
-    fileCounter.style.display = 'block';
     counterTimer = setInterval(() => {
-      // растёт случайными шагами, чтобы выглядело живо
       fileCount += Math.floor(Math.random() * 40) + 10;
       fileCounter.textContent = 'Удалено файлов: ' + fileCount;
     }, 120);
@@ -256,36 +289,42 @@
   }
 
   // ==========================================================
-  // ЭФФЕКТ 12: инфо об устройстве с реальной моделью телефона
+  // ЭФФЕКТ 12: инфо об устройстве (phone / tablet / computer)
   // ==========================================================
-  function detectDeviceModel() {
+  function detectDeviceType() {
     const ua = navigator.userAgent;
 
-    // --- iPhone ---
-    // В Safari можно вытащить модель через специальный паттерн
-    let m;
+    // === Планшет ===
+    if (/iPad/.test(ua)) return 'tablet';
+    if (/Macintosh/.test(ua) && 'ontouchend' in document) return 'tablet';
+    if (/Android/.test(ua) && !/Mobile/.test(ua)) return 'tablet';
 
-    // Android: ищем "Android X; Модель" или "Android X; Модель Build/..."
-    m = ua.match(/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\))/i);
-    if (m) return m[1].trim();
+    // === Телефон ===
+    if (/iPhone/.test(ua)) return 'phone';
+    if (/Android/.test(ua) && /Mobile/.test(ua)) return 'phone';
+    if (/Windows Phone/.test(ua)) return 'phone';
+    if (/BlackBerry|BB10|Opera Mini|IEMobile/.test(ua)) return 'phone';
 
-    // iPhone (iOS): UA обычно не содержит модель, но проверим
-    if (/iPhone/.test(ua)) return 'iPhone';
-    if (/iPad/.test(ua))   return 'iPad';
-    if (/Macintosh/.test(ua)) return 'Mac';
-    if (/Windows NT/.test(ua)) return 'Windows PC';
+    // === ПК / ноутбук ===
+    if (/Windows NT/.test(ua)) return 'computer';
+    if (/Macintosh/.test(ua)) return 'computer';
+    if (/Linux/.test(ua) && !/Android/.test(ua)) return 'computer';
+    if (/CrOS/.test(ua)) return 'computer';
 
-    return 'Неизвестное устройство';
+    return 'computer';
   }
 
   function getRandomIP() {
-    // Локальный IP-диапазон — не настоящий
     return '192.168.' + rand(0,255) + '.' + rand(0,255);
   }
 
   function getRandomGeo() {
-    const cities = ['Москва, Россия', 'Санкт-Петербург, Россия',
-                    'Казань, Россия', 'Новосибирск, Россия'];
+    const cities = [
+      'Москва, Россия',
+      'Санкт-Петербург, Россия',
+      'Казань, Россия',
+      'Новосибирск, Россия'
+    ];
     return cities[Math.floor(Math.random() * cities.length)];
   }
 
@@ -294,13 +333,13 @@
   }
 
   function buildDeviceInfo() {
-    const model = detectDeviceModel();
-    const ip    = getRandomIP();
-    const geo   = getRandomGeo();
+    const type = detectDeviceType();
+    const ip   = getRandomIP();
+    const geo  = getRandomGeo();
 
     deviceInfo.textContent =
       'IP:        ' + ip + '\n' +
-      'Модель:    ' + model + '\n' +
+      'Устройство: ' + type + '\n' +
       'Локация:   ' + geo;
   }
 
@@ -313,15 +352,13 @@
     if (cursorEl) cursorEl.remove();
     cursorEl = document.createElement('span');
     cursorEl.className = 'cursor';
-    cursorEl.textContent = '\u00A0';
     terminalScreen.appendChild(cursorEl);
   }
 
   // ==========================================================
-  // Печать строк с курсором
+  // Печать строк
   // ==========================================================
   function printLine(text, cssClass, withBar) {
-    // Перед новой строкой — убираем старый курсор
     if (cursorEl) cursorEl.remove();
 
     const p = document.createElement('p');
@@ -331,7 +368,6 @@
         '<span class="red">- Z.E.R.O.A.I</span> ' +
         '<span class="green">- запущен</span>';
     } else if (withBar && /^\-\s\d+%$/.test(text)) {
-      // Эффект 9: заменяем "- 52%" на "- 52% [██████░░░░]"
       const pct = parseInt(text.match(/\d+/)[0], 10);
       p.className = cssClass;
       p.textContent = text + ' ' + makeBar(pct);
@@ -346,7 +382,7 @@
   }
 
   // ==========================================================
-  // Сценарий (тайминги ~5 минут)
+  // Сценарий (~5 минут)
   // ==========================================================
   const script = [
     ['- Запуск системы', 'green', 3000],
@@ -367,7 +403,7 @@
     ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 5000],
     ['- Z.E.R.O.A.I - запущен', 'mixed', 5000],
 
-    // ==== Эффект 5: дрожание при "Удаление данных" ====
+    // Эффект 5: тряска на "Удаление данных"
     ['- Удаление данных телефона', 'red', 5000, 'shake'],
 
     ['- 0%',  'green', 11000],
@@ -397,16 +433,14 @@
       if (i >= script.length) {
         stopCounter();
 
-        // ===== Эффект 18: финальная "перезагрузка" =====
+        // Эффект 18: финальная "перезагрузка"
         setTimeout(() => {
-          // Резко гасим экран
           terminalScreen.style.display = 'none';
+          topBar.style.display = 'none';
           fileCounter.style.display = 'none';
-          deviceInfo.style.display = 'none';
 
           document.body.style.background = '#000';
 
-          // Через 1 сек — показываем финал
           setTimeout(() => {
             finalScreen.style.display = 'flex';
           }, 1000);
@@ -417,12 +451,10 @@
       const item = script[i];
       const [text, cls, delay, action] = item;
 
-      printLine(text, cls, true);   // с прогресс-барами
+      printLine(text, cls, true);
 
-      // Эффект 5: тряска на определённых строках
       if (action === 'shake') shakeScreen();
 
-      // Эффект 11: старт счётчика файлов при удалении данных
       if (text === '- Удаление данных телефона') {
         startCounter();
       }
@@ -441,9 +473,11 @@
     warningScreen.style.display  = 'none';
     terminalScreen.style.display = 'block';
 
-    // Показываем инфо об устройстве
+    // Показываем фиксированную шапку сразу
     buildDeviceInfo();
-    deviceInfo.style.display = 'block';
+    topBar.style.display = 'flex';
+    fileCounter.style.display = 'block';
+    fileCounter.textContent = 'Удалено файлов: 0';
 
     runSequence();
   });
@@ -452,11 +486,8 @@
   // ЭФФЕКТ 19: кнопка "ЗАКРЫТЬ ВКЛАДКУ"
   // ==========================================================
   closeBtn.addEventListener('click', () => {
-    // Пытаемся закрыть вкладку
     window.close();
 
-    // Если браузер не разрешил (обычно так и есть для не-скриптовых вкладок),
-    // показываем заглушку
     setTimeout(() => {
       document.body.innerHTML =
         '<div style="text-align:center;color:#0f0;' +
