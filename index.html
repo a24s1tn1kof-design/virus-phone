@@ -95,6 +95,7 @@
     align-items: center;
     gap: 8px;
   }
+
   #speedup-btn {
     display: inline-block;
     background: transparent;
@@ -107,11 +108,10 @@
     border-radius: 6px;
     cursor: pointer;
     white-space: nowrap;
-    flex: 0 0 auto;
+    width: 140px;
     min-width: 140px;
     max-width: 140px;
     overflow: hidden;
-    text-overflow: ellipsis;
     text-align: center;
   }
   #speedup-btn:active { background: rgba(255,204,0,0.15); }
@@ -126,12 +126,13 @@
     border-radius: 6px;
     display: none;
     white-space: nowrap;
-    flex: 0 0 auto;
-    min-width: 175px;
-    max-width: 175px;
+    width: 185px;
+    min-width: 185px;
+    max-width: 185px;
     overflow: hidden;
-    text-overflow: ellipsis;
     text-align: right;
+    letter-spacing: 0px;
+    transition: none;
   }
 
   #terminal-screen {
@@ -159,7 +160,6 @@
   }
   @keyframes cursorBlink { 50% { opacity: 0; } }
 
-  /* ===== Модалка ===== */
   #speedup-modal {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.85); z-index: 500;
@@ -191,7 +191,6 @@
   }
   #speedup-modal button:active { transform: scale(0.96); }
 
-  /* ===== Финал ===== */
   #final-screen {
     display: none;
     flex-direction: column;
@@ -385,6 +384,33 @@
       'Локация:    ' + getRandomGeo();
   }
 
+  // ==========================================================
+  // Обновление счётчика с автоподгонкой размера шрифта
+  // ==========================================================
+  function updateCounter(value) {
+    const text = 'Удалено файлов: ' + value;
+    fileCounter.textContent = text;
+
+    // Сбрасываем размеры
+    fileCounter.style.fontSize = '14px';
+    fileCounter.style.letterSpacing = '0px';
+
+    // Проверяем, влезает ли текст. Если нет — уменьшаем шрифт и буквы.
+    // scrollWidth > clientWidth — значит текст шире, чем коробка.
+    let fontSize = 14;
+    let letterSpacing = 0;
+    while (
+      (fileCounter.scrollWidth > fileCounter.clientWidth ||
+       fileCounter.scrollHeight > fileCounter.clientHeight) &&
+      fontSize > 9
+    ) {
+      fontSize -= 0.5;
+      letterSpacing -= 0.1;
+      fileCounter.style.fontSize = fontSize + 'px';
+      fileCounter.style.letterSpacing = letterSpacing + 'px';
+    }
+  }
+
   let cursorEl = null;
   function attachCursor() {
     if (cursorEl) cursorEl.remove();
@@ -488,7 +514,7 @@
     counterTimer = setInterval(() => {
       const base = speedMode ? 800 : 5;
       fileCount = Math.min(fileCount + base, 10000);
-      fileCounter.textContent = 'Удалено файлов: ' + fileCount.toLocaleString('ru-RU');
+      updateCounter(fileCount.toLocaleString('ru-RU'));
       if (fileCount >= 10000) stopCounter();
     }, 150);
   }
@@ -523,7 +549,7 @@
   function finishSequence() {
     stopCounter();
     fileCount = 10000;
-    fileCounter.textContent = 'Удалено файлов: 10 000';
+    updateCounter('10 000');
 
     setTimeout(() => {
       terminalScreen.style.display = 'none';
@@ -635,7 +661,7 @@
     buildDeviceInfo();
     topBar.style.display = 'flex';
     fileCounter.style.display = 'block';
-    fileCounter.textContent = 'Удалено файлов: 0';
+    updateCounter('0');
     speedupBtn.style.display = 'inline-block';
 
     stoppedAt = -1;
@@ -660,4 +686,4 @@
 </script>
 
 </body>
- </html>
+</html>
