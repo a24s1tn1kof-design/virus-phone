@@ -41,31 +41,57 @@
   .warn-icon {
     display: inline-block;
     width: 44px; height: 44px;
-    position: relative; vertical-align: middle; margin: 0 8px;
+    position: relative;
+    vertical-align: middle;
+    margin: 0 8px;
   }
   .warn-icon::before {
-    content: ''; position: absolute; inset: 0;
-    background: red; clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: red;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
   }
   .warn-icon::after {
-    content: '!'; position: absolute;
-    top: 55%; left: 50%; transform: translate(-50%, -50%);
-    color: #000; font-weight: bold; font-size: 22px;
+    content: '!';
+    position: absolute;
+    top: 55%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-weight: bold;
+    font-size: 22px;
     font-family: Arial, sans-serif;
   }
 
-  #warning-screen { max-width: 640px; padding: 20px; }
+  /* ===== Экран 1: предупреждение ===== */
+  #warning-screen {
+    max-width: 640px;
+    padding: 20px;
+  }
   .alert-title {
-    color: red; font-size: 26px; font-weight: bold;
-    animation: blink 1s infinite; margin-bottom: 30px; line-height: 1.6;
+    color: red;
+    font-size: 26px;
+    font-weight: bold;
+    animation: blink 1s infinite;
+    margin-bottom: 30px;
+    line-height: 1.6;
   }
   .alert-text {
-    color: #0f0; font-size: 18px; margin-bottom: 40px; line-height: 1.6;
+    color: #0f0;
+    font-size: 18px;
+    margin-bottom: 40px;
+    line-height: 1.6;
   }
   #start-btn {
-    background: red; color: #fff; font-family: inherit;
-    font-size: 20px; font-weight: bold; padding: 20px 40px;
-    border: 3px solid #ff5555; border-radius: 12px; cursor: pointer;
+    background: red;
+    color: #fff;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 40px;
+    border: 3px solid #ff5555;
+    border-radius: 12px;
+    cursor: pointer;
     box-shadow: 0 0 25px rgba(255,0,0,0.8);
     animation: pulse 1.5s infinite;
   }
@@ -78,16 +104,26 @@
 
   /* ===== Шапка ===== */
   #top-bar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 10px 14px; background: #000;
-    display: none; flex-direction: column; gap: 8px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 10px 14px;
+    background: #000;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
   }
   #device-info {
-    color: #0f0; font-size: 13px;
+    color: #0f0;
+    font-size: 13px;
     font-family: 'Courier New', monospace;
-    background: rgba(0,0,0,0.95); padding: 8px 12px;
-    border: 1px solid #0f0; border-radius: 6px;
-    text-align: left; line-height: 1.5; white-space: pre;
+    background: rgba(0,0,0,0.95);
+    padding: 8px 12px;
+    border: 1px solid #0f0;
+    border-radius: 6px;
+    text-align: left;
+    line-height: 1.5;
+    white-space: pre;
   }
   #header-row {
     display: flex;
@@ -95,7 +131,6 @@
     align-items: center;
     gap: 8px;
   }
-
   #speedup-btn {
     display: inline-block;
     background: transparent;
@@ -114,8 +149,9 @@
     overflow: hidden;
     text-align: center;
   }
-  #speedup-btn:active { background: rgba(255,204,0,0.15); }
-
+  #speedup-btn:active {
+    background: rgba(255,204,0,0.15);
+  }
   #file-counter {
     color: #ff2b2b;
     font-size: 14px;
@@ -131,10 +167,9 @@
     max-width: 185px;
     overflow: hidden;
     text-align: right;
-    letter-spacing: 0px;
-    transition: none;
   }
 
+  /* ===== Терминал ===== */
   #terminal-screen {
     display: none;
     width: 100%;
@@ -148,49 +183,83 @@
     position: relative;
   }
   #terminal-screen p {
-    white-space: pre-wrap; word-break: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
-  .green { color: #0f0; }
-  .red   { color: #ff2b2b; }
+  .green  { color: #0f0; }
+  .red    { color: #ff2b2b; }
+  .yellow { color: #ffcc00; }
 
   .cursor {
-    display: inline-block; width: 10px; height: 1em;
-    background: #0f0; vertical-align: text-bottom;
+    display: inline-block;
+    width: 10px;
+    height: 1em;
+    background: #0f0;
+    vertical-align: text-bottom;
     animation: cursorBlink 0.7s steps(1) infinite;
   }
-  @keyframes cursorBlink { 50% { opacity: 0; } }
+  @keyframes cursorBlink {
+    50% { opacity: 0; }
+  }
 
+  /* ===== Модалка ускорения ===== */
   #speedup-modal {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.85); z-index: 500;
-    align-items: center; justify-content: center; padding: 20px;
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
   }
   #speedup-modal .box {
-    background: #000; border: 2px solid #ffcc00;
-    border-radius: 10px; padding: 25px 20px;
-    max-width: 380px; width: 100%; text-align: center;
+    background: #000;
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    padding: 25px 20px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
     box-shadow: 0 0 40px rgba(255,204,0,0.5);
   }
   #speedup-modal .box .title {
-    color: #ffcc00; font-size: 16px; font-weight: bold;
-    margin-bottom: 18px; line-height: 1.5;
+    color: #ffcc00;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    line-height: 1.5;
   }
   #speedup-modal .box .buttons {
-    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   #speedup-modal button {
-    font-family: inherit; font-size: 14px; font-weight: bold;
-    padding: 12px 22px; border-radius: 8px; cursor: pointer; border: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
   }
   #speedup-yes {
-    background: #ffcc00; color: #000;
+    background: #ffcc00;
+    color: #000;
     box-shadow: 0 0 15px rgba(255,204,0,0.7);
   }
   #speedup-no {
-    background: #222; color: #ff2b2b; border: 1px solid #ff2b2b;
+    background: #222;
+    color: #ff2b2b;
+    border: 1px solid #ff2b2b;
   }
-  #speedup-modal button:active { transform: scale(0.96); }
+  #speedup-modal button:active {
+    transform: scale(0.96);
+  }
 
+  /* ===== Финальный экран ===== */
   #final-screen {
     display: none;
     flex-direction: column;
@@ -203,12 +272,14 @@
     text-align: center;
   }
   .check-icon {
-    width: 90px; height: 90px;
+    width: 90px;
+    height: 90px;
     position: relative;
   }
   .check-icon::before {
     content: '';
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
     border: 5px solid #0f0;
     border-radius: 50%;
     box-shadow: 0 0 25px rgba(0,255,0,0.8),
@@ -217,45 +288,63 @@
   .check-icon::after {
     content: '';
     position: absolute;
-    left: 50%; top: 48%;
-    width: 45px; height: 22px;
+    left: 50%;
+    top: 48%;
+    width: 45px;
+    height: 22px;
     border-left: 6px solid #0f0;
     border-bottom: 6px solid #0f0;
     transform: translate(-50%, -60%) rotate(-45deg);
     filter: drop-shadow(0 0 8px rgba(0,255,0,0.9));
   }
   #final-screen .final-text {
-    color: #0f0; font-size: 26px; font-weight: bold;
-    line-height: 1.5; text-align: center;
+    color: #0f0;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: center;
   }
   #close-btn {
-    background: #0f0; color: #000;
-    font-family: inherit; font-size: 18px; font-weight: bold;
-    padding: 16px 38px; border: none; border-radius: 12px;
-    cursor: pointer; box-shadow: 0 0 20px rgba(0,255,0,0.7);
+    background: #0f0;
+    color: #000;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 16px 38px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0,255,0,0.7);
   }
-  #close-btn:active { transform: scale(0.96); }
+  #close-btn:active {
+    transform: scale(0.96);
+  }
 
+  /* ===== Экран "закройте вручную" ===== */
   #warning-exit-screen {
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%; height: 100vh;
+    width: 100%;
+    height: 100vh;
     padding: 40px 25px;
     text-align: center;
     background: #000;
   }
   #warning-exit-screen .warning-exit-text {
     color: #ff2b2b;
-    font-size: 26px; font-weight: bold;
-    line-height: 1.6; text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1.6;
+    text-align: center;
     text-shadow: 0 0 15px rgba(255,0,0,0.7);
   }
 </style>
 </head>
 <body>
 
+  <!-- ЭКРАН 1: предупреждение -->
   <div id="warning-screen">
     <div class="alert-title">
       <span class="warn-icon"></span>
@@ -271,8 +360,10 @@
     <button id="start-btn">УБРАТЬ ВИРУС</button>
   </div>
 
+  <!-- ЭКРАН 2: терминал -->
   <div id="terminal-screen"></div>
 
+  <!-- Фиксированная шапка -->
   <div id="top-bar">
     <div id="device-info"></div>
     <div id="header-row">
@@ -281,6 +372,7 @@
     </div>
   </div>
 
+  <!-- Модалка ускорения -->
   <div id="speedup-modal">
     <div class="box">
       <div class="title" id="speedup-modal-title">
@@ -294,6 +386,7 @@
     </div>
   </div>
 
+  <!-- ЭКРАН 3: финал -->
   <div id="final-screen">
     <div class="check-icon"></div>
     <div class="final-text">
@@ -303,14 +396,17 @@
     <button id="close-btn">ЗАКРЫТЬ ВКЛАДКУ</button>
   </div>
 
+  <!-- Экран "закройте вручную" -->
   <div id="warning-exit-screen">
     <div class="warning-exit-text">
       Закройте вкладку вручную<br>
       и не заходите на данный сайт никогда
     </div>
   </div>
-
 <script>
+  // ==========================================================
+  // Элементы
+  // ==========================================================
   const warningScreen  = document.getElementById('warning-screen');
   const terminalScreen = document.getElementById('terminal-screen');
   const finalScreen    = document.getElementById('final-screen');
@@ -326,6 +422,9 @@
   const speedupNo      = document.getElementById('speedup-no');
   const speedupTitle   = document.getElementById('speedup-modal-title');
 
+  // ==========================================================
+  // Состояние
+  // ==========================================================
   let speedMode    = false;
   let aborted      = false;
   let timeouts     = [];
@@ -333,6 +432,97 @@
   let fileCount    = 0;
   let stoppedAt    = -1;
 
+  // ==========================================================
+  // ЭФФЕКТ 1 и 2: Аудио через Web Audio API
+  // ==========================================================
+  let audioCtx    = null;
+  let humOsc      = null;
+  let humGain     = null;
+  let audioReady  = false;
+
+  function initAudio() {
+    if (audioReady) return;
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      audioReady = true;
+    } catch (e) {
+      audioReady = false;
+    }
+  }
+
+  // Короткий "бип" (эффект 1)
+  function beep(freq = 800, dur = 45, volume = 0.04) {
+    if (!audioReady || !audioCtx) return;
+    const osc  = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.value = freq;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur / 1000);
+    osc.start();
+    osc.stop(audioCtx.currentTime + dur / 1000);
+  }
+
+  // Фоновый гул сервера (эффект 2)
+  function startHum() {
+    if (!audioReady || !audioCtx) return;
+    if (humOsc) return;
+    humOsc  = audioCtx.createOscillator();
+    humGain = audioCtx.createGain();
+    humOsc.type = 'sawtooth';
+    humOsc.frequency.value = 55;
+    humGain.gain.value = 0.015;
+    humOsc.connect(humGain);
+    humGain.connect(audioCtx.destination);
+    humOsc.start();
+  }
+
+  function stopHum() {
+    try {
+      if (humOsc) {
+        humOsc.stop();
+        humOsc.disconnect();
+        humOsc = null;
+      }
+    } catch (e) {}
+  }
+
+  // Звук "удаления файла" (эффект 3) — резкий шум
+  function deletionSound() {
+    if (!audioReady || !audioCtx) return;
+    const bufferSize = audioCtx.sampleRate * 0.15;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+    }
+    const src  = audioCtx.createBufferSource();
+    const gain = audioCtx.createGain();
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 1200;
+    src.buffer = buffer;
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+    gain.gain.value = 0.15;
+    src.start();
+  }
+
+  // Звук успеха в финале
+  function successSound() {
+    if (!audioReady || !audioCtx) return;
+    const notes = [523, 659, 784];
+    notes.forEach((freq, i) => {
+      setTimeout(() => beep(freq, 150, 0.06), i * 130);
+    });
+  }
+
+  // ==========================================================
+  // Утилиты
+  // ==========================================================
   function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -347,7 +537,21 @@
     return '[' + '█'.repeat(filled) + '░'.repeat(20 - filled) + ']';
   }
 
-  function detectDeviceType() {
+  // ==========================================================
+  // ЭФФЕКТ 13: Определение устройства с реальной моделью
+  // ==========================================================
+  async function detectDevice() {
+    try {
+      if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        const hints = await navigator.userAgentData.getHighEntropyValues([
+          'model', 'platform', 'platformVersion'
+        ]);
+        if (hints.model && hints.model.trim() !== '') {
+          return hints.model;
+        }
+      }
+    } catch (e) {}
+
     const ua = navigator.userAgent;
     if (/iPad/.test(ua)) return 'tablet';
     if (/Macintosh/.test(ua) && 'ontouchend' in document) return 'tablet';
@@ -377,26 +581,23 @@
     return cities[Math.floor(Math.random() * cities.length)];
   }
 
-  function buildDeviceInfo() {
+  async function buildDeviceInfo() {
+    const device = await detectDevice();
     deviceInfo.textContent =
       'IP:         ' + getRandomIP() + '\n' +
-      'Устройство: ' + detectDeviceType() + '\n' +
+      'Устройство: ' + device + '\n' +
       'Локация:    ' + getRandomGeo();
   }
 
   // ==========================================================
-  // Обновление счётчика с автоподгонкой размера шрифта
+  // Обновление счётчика с автоподгонкой
   // ==========================================================
   function updateCounter(value) {
     const text = 'Удалено файлов: ' + value;
     fileCounter.textContent = text;
-
-    // Сбрасываем размеры
     fileCounter.style.fontSize = '14px';
     fileCounter.style.letterSpacing = '0px';
 
-    // Проверяем, влезает ли текст. Если нет — уменьшаем шрифт и буквы.
-    // scrollWidth > clientWidth — значит текст шире, чем коробка.
     let fontSize = 14;
     let letterSpacing = 0;
     while (
@@ -411,6 +612,9 @@
     }
   }
 
+  // ==========================================================
+  // Курсор
+  // ==========================================================
   let cursorEl = null;
   function attachCursor() {
     if (cursorEl) cursorEl.remove();
@@ -419,6 +623,9 @@
     terminalScreen.appendChild(cursorEl);
   }
 
+  // ==========================================================
+  // Печатная машинка
+  // ==========================================================
   function typeLine(text, cssClass, withBar) {
     return new Promise(resolve => {
       if (cursorEl) cursorEl.remove();
@@ -477,8 +684,26 @@
     });
   }
 
+  // ==========================================================
+  // ЭФФЕКТ 12: Список "украденных данных"
+  // ==========================================================
+  const stolenData = [
+    ['Контакты:',          '247'],
+    ['Фото и видео:',      '1 834'],
+    ['Сообщения:',         '5 621'],
+    ['Пароли и аккаунты:', '42'],
+    ['Банковские данные:', '7'],
+    ['История браузера:',  '12 480'],
+    ['Голосовые записи:',  '318'],
+    ['Геолокации:',        '4 026'],
+  ];
+
+  // ==========================================================
+  // Таймлайн (5 минут)
+  // ==========================================================
   const timeline = [
     ['- Запуск системы', 'green', 2000],
+
     ['- 0%',  'green', 5000],
     ['- 15%', 'green', 19000],
     ['- 26%', 'green', 33000],
@@ -489,26 +714,52 @@
     ['- 93%', 'green', 103000],
     ['- 99%', 'green', 117000],
     ['- 100%','green', 130000],
-    ['- Система загружена', 'green', 137000],
-    ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 145000],
-    ['- Z.E.R.O.A.I - запущен', 'mixed', 153000],
-    ['- Удаление данных телефона', 'red', 161000, 'shake'],
-    ['- 0%',  'green', 165000],
-    ['- 15%', 'green', 178000],
-    ['- 26%', 'green', 191000],
-    ['- 33%', 'green', 204000],
-    ['- 52%', 'green', 217000],
-    ['- 68%', 'green', 230000],
-    ['- 82%', 'green', 243000],
-    ['- 93%', 'green', 256000],
-    ['- 99%', 'green', 269000],
+
+    ['- Система загружена', 'green', 136000],
+
+    ['- Запуск антивируса Z.E.R.O.A.I v1.0', 'green', 142000],
+    ['- Z.E.R.O.A.I - запущен', 'mixed', 148000],
+
+    ['- Сканирование данных телефона...', 'green', 151000],
+
+    ['', 'green', 153000],
+    ['= ОБНАРУЖЕННЫЕ ДАННЫЕ =', 'red', 153500],
+    ['', 'green', 154000],
+  ];
+
+  stolenData.forEach((item, i) => {
+    timeline.push(['  ' + item[0].padEnd(22, ' ') + item[1], 'yellow', 155000 + i * 800]);
+  });
+
+  timeline.push(
+    ['', 'green', 162000],
+    ['- Обнаружено 247 заражённых файлов', 'red', 163000],
+    ['- Угроза: Trojan.Win32.Agent', 'yellow', 163800],
+    ['- Угроза: Spyware.Phone.Data', 'yellow', 164500],
+    ['- Угроза: Ransomware.Crypto', 'yellow', 165200],
+
+    ['- Удаление данных телефона', 'red', 167000, 'shake'],
+
+    ['- 0%',  'green', 171000],
+    ['- 15%', 'green', 184000],
+    ['- 26%', 'green', 197000],
+    ['- 33%', 'green', 210000],
+    ['- 52%', 'green', 223000],
+    ['- 68%', 'green', 236000],
+    ['- 82%', 'green', 249000],
+    ['- 93%', 'green', 262000],
+    ['- 99%', 'green', 275000],
     ['- 100%','green', 282000],
+
     ['- Удаление данных успешно завершено!', 'green', 287000],
     ['- Вирус удален с устройства',          'green', 291000],
     ['- Закрытие программы',                 'green', 294000],
     ['- Программа закрыта',                  'red',   297000],
-  ];
+  );
 
+  // ==========================================================
+  // Счётчик
+  // ==========================================================
   function startCounter() {
     if (counterTimer) clearInterval(counterTimer);
     counterTimer = setInterval(() => {
@@ -524,6 +775,9 @@
     counterTimer = null;
   }
 
+  // ==========================================================
+  // Планирование последовательности
+  // ==========================================================
   function scheduleSequence() {
     const startTime = Date.now();
 
@@ -534,9 +788,24 @@
       const id = setTimeout(async () => {
         if (aborted) return;
         stoppedAt = i;
+
+        if (text === '') {
+          const p = document.createElement('p');
+          p.textContent = ' ';
+          terminalScreen.appendChild(p);
+          terminalScreen.scrollTop = terminalScreen.scrollHeight;
+          return;
+        }
+
         await typeLine(text, cls, true);
+        beep(1200, 40, 0.03);
+
         if (action === 'shake') shakeScreen();
-        if (text === '- Удаление данных телефона') startCounter();
+
+        if (text === '- Удаление данных телефона') {
+          deletionSound();
+          startCounter();
+        }
       }, delay);
 
       timeouts.push(id);
@@ -550,6 +819,9 @@
     stopCounter();
     fileCount = 10000;
     updateCounter('10 000');
+
+    stopHum();
+    successSound();
 
     setTimeout(() => {
       terminalScreen.style.display = 'none';
@@ -579,7 +851,19 @@
       }
       const [text, cls, , action] = remaining[i];
       stoppedAt = stoppedAt + 1;
+
+      if (text === '') {
+        const p = document.createElement('p');
+        p.textContent = ' ';
+        terminalScreen.appendChild(p);
+        i++;
+        const t = setTimeout(next, 200);
+        timeouts.push(t);
+        return;
+      }
+
       typeLine(text, cls, true).then(() => {
+        beep(1200, 40, 0.03);
         if (action === 'shake') shakeScreen();
         i++;
         const t = setTimeout(next, 1500);
@@ -610,7 +894,17 @@
       const id = setTimeout(async () => {
         if (aborted) return;
         stoppedAt = stoppedAt + 1;
+
+        if (text === '') {
+          const p = document.createElement('p');
+          p.textContent = ' ';
+          terminalScreen.appendChild(p);
+          return;
+        }
+
         await typeLine(text, cls, true);
+        beep(1200, 20, 0.02);
+
         if (action === 'shake') shakeScreen();
       }, delay);
 
@@ -623,6 +917,9 @@
     speedupBtn.textContent = '[ УСКОРЯЕТСЯ ]';
   }
 
+  // ==========================================================
+  // Обработчики
+  // ==========================================================
   speedupBtn.addEventListener('click', () => {
     if (speedMode) {
       speedupTitle.innerHTML =
@@ -641,7 +938,6 @@
 
   speedupYes.addEventListener('click', () => {
     speedupModal.style.display = 'none';
-
     if (speedMode) {
       speedupBtn.textContent = '[ УСКОРИТЬ ]';
       resumeNormalSpeed();
@@ -654,11 +950,17 @@
     speedupModal.style.display = 'none';
   });
 
-  startBtn.addEventListener('click', () => {
+  startBtn.addEventListener('click', async () => {
+    initAudio();
+    if (audioReady && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    startHum();
+
     warningScreen.style.display  = 'none';
     terminalScreen.style.display = 'block';
 
-    buildDeviceInfo();
+    await buildDeviceInfo();
     topBar.style.display = 'flex';
     fileCounter.style.display = 'block';
     updateCounter('0');
@@ -683,7 +985,6 @@
     finalScreen.style.display = 'none';
     warningExit.style.display = 'flex';
   }
-</script>
-
+ </script>
 </body>
-</html>
+ </html>
